@@ -1,0 +1,21 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "br.com.devmedia.MeuApp"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "br.com.devmedia.MeuApp"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "br.com.devmedia.MeuApp"
+    }
+  },
+  "dependent_plugins": {}
+}
