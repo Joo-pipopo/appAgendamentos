@@ -9,7 +9,7 @@ var app = {
         document.getElementById("btnListar").addEventListener("click",app.listar);
         this.receivedEvent('deviceready');
     },
-
+    
     listar: function(){
         var db = firebase.firestore();
         var ag = db.collection("agendamentos");
@@ -31,7 +31,9 @@ var app = {
         .catch((error) => {
             console.log("Error getting documents: ", error);
         });
-    } 
+    }
+
 };
+
 
 app.initialize();
