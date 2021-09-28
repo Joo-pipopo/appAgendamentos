@@ -2,19 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+    meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
     <meta name="color-scheme" content="light dark">
-    <script src="bootstrap/css/bootstrap.css"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
-    <script src="js/editar.js"></script>
-    <script src="cordova.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <script src="./../cordova.js"></script>
     <script src="js/jquery.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-analytics.js"></script>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/editar.js"></script>
 
     <title>Editar</title>
 </head>
@@ -24,28 +30,24 @@
         <div class="row">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-12">
                 <a class="navbar-brand" href="index.html">Sistema Web</a>
-               
-               
-                    <ul class="navbar-nav">
-                       
-                            <a class="nav-link" href="index.html"> Cadastrar <span class="sr-only">(current)</span>
-                            </a>
-                       
-                        <li class="nav-item">
-                            <a class="nav-link" href="consulta.html">Consultar</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        
 
+
+                <ul class="navbar-nav">
+
+                    <a class="nav-link" href="index.html"> Cadastrar <span class="sr-only">(current)</span>
+                    </a>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="consulta.html">Consultar</a>
+                    </li>
+                </ul>
+        </div>
+        </nav>
         <br>
-
-
         <div class="card mb-3 col-12">
             <div class="card-body">
 
-                <h5 class="card-title">&nbsp; Editar - Agendamento de Potenciais Clientes</h5>
+                <h5 class="card-title">&nbsp; Editar - Agendamento de Clientes</h5>
                 <p class="card-text"> &nbsp; Sistema utilizado para agendamento de serviços.</p>
                 <form>
                     <div class="form-group">
@@ -71,8 +73,8 @@
                         <label for="exampleFormControlTextarea1">&nbsp;Observação:</label>
                         <textarea class="form-control" id="txtObservacao" rows="3"></textarea>
                     </div>
-                    <button type="submit" id="btnEditar" class="btn btn-primary">Editar</button>
                     <button type="button" id="btnBuscar" class="btn btn-primary">Buscar</button>
+                    <button type="button" id="btnEditar" class="btn btn-primary">Editar</button>
                 </form>
             </div>
         </div>
