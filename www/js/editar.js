@@ -49,13 +49,35 @@ var app = {
         let data_contato = document.getElementById("txtDataContato").value;
         let observacao = document.getElementById("txtObservacao").value;
 
-        db.transaction(function(tx) {
-            tx.executeSql('UPDATE clientes SET nome=?, telefone=?, origem=?, data_contato=?, observacao=? WHERE telefone=?', [nome, telefone, origem, data_contato, observacao, getTelefone]);
-        }, function(error) {
-            alert('Erro durante a transacao com o banco: ' + error.message);
-        }, function() {
-            alert('Atualização realizada com sucesso!!!');
+        var db = firebase.firestore();
+        var ag = db.collection("agendamentos").where("telefone", "==", getTelefone);
+
+        ag.get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                var dados = db.collection("agendamentos").doc(doc.id);
+
+                return dados.update({
+                    nome: nome,
+                    telefone: telefone,
+                    origem: origem,
+                    data_contato: data_contato,
+                    observacao: observacao
+                })
+                .then(() => {
+                    console.log("Documento atualizado com sucesso!");
+                    window.location.href = cordova.file.applicationDirectory + "www/consultar.html";
+                })
+                .catch((error) => {
+                    // O documento provavelmente não existe
+                    console.error("Erro ao atualizar", error);
+                });
+            });
+        })
+        .catch((error) => {
+            console.log("Erro em obter os documentos: ", error);
         });
+
     }
 
 };
