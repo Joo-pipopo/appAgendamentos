@@ -11,56 +11,37 @@ var app = {
         this.receivedEvent('deviceready');
     },
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        db = window.sqlitePlugin.openDatabase({
-            name: 'aplicativo.db',
-            location: 'default',            
-            androidDatabaseProvider: 'system'
-        });
-
-        db.transaction(function(tx) {
-            tx.executeSql('CREATE TABLE IF NOT EXISTS clientes (nome, telefone, origem, data_contato, observacao)');
-        }, function(error) {
-            console.log('Transaction ERROR: ' + error.message);
-        }, function() {
-            //alert('Banco e Tabela clientes criados com sucesso!!!');
-        });
-    },
     
     buscar: function(){
         var url_string = window.location.href;
         var url = new URL(url_string);
         var getTelefone = url.searchParams.get("telefone");
-        //alert(getTelefone);
-        db.executeSql(
-            'SELECT nome AS uNome, telefone AS uTelefone, origem AS uOrigem, data_contato AS uDataContato, observacao ' + 
-            'AS uObservacao FROM clientes WHERE telefone = ?', [getTelefone], function(rs) {
-               // alert(JSON.stringify(rs));
-               // alert(rs.rows.length);
-                let i = 0;
-                for(i = 0; i < rs.rows.length; i++){
-                   // alert("item "+i);
-                    let recordItem = rs.rows.item(i);
-                    //alert(JSON.stringify(recordItem));
-                    document.getElementById("txtNome").value = rs.rows.item(i).uNome;
-                    document.getElementById("txtTelefone").value = rs.rows.item(i).uTelefone;
-                    document.getElementById("txtOrigem").value = rs.rows.item(i).uOrigem;
-                    document.getElementById("txtDataContato").value = rs.rows.item(i).uDataContato;
-                    document.getElementById("txtObservacao").value = rs.rows.item(i).uObservacao;
-                    
-                }
-            //alert('Record count (expected to be 2): ' + rs.rows.item(0).uLoginName);
-        }, function(error) {
-            alert('Erro no SELECT: ' + error.message);
-        }); 
+
+        var db = firebase.firestore();
+        var ag = db.collection("agendamentos").where("telefone", "==", getTelefone);
+
+        ag.get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+                document.getElementById("txtNome").value = doc.data().nome;
+                document.getElementById("txtTelefone").value = doc.data().telefone;
+                document.getElementById("txtOrigem").value = doc.data().origem;
+                document.getElementById("txtDataContato").value = doc.data().data_contato;
+                document.getElementById("txtObservacao").value = doc.data().observacao;
+            });
+        })
+        .catch((error) => {
+            console.log("Error getting documents: ", error);
+        });
     },
+
 
     editar: function(){
         var url_string = window.location.href;
         var url = new URL(url_string);
         var getTelefone = url.searchParams.get("telefone");
-        
+
 
         let nome = document.getElementById("txtNome").value;
         let telefone = document.getElementById("txtTelefone").value;
@@ -69,15 +50,34 @@ var app = {
         let observacao = document.getElementById("txtObservacao").value;
 
         var db = firebase.firestore();
-        var ag = db.colletion
+        var ag = db.collection("agendamentos").where("telefone", "==", getTelefone);
 
-        db.transaction(function(tx) {
-            tx.executeSql('UPDATE clientes SET nome=?, telefone=?, origem=?, data_contato=?, observacao=? WHERE telefone=?', [nome, telefone, origem, data_contato, observacao, getTelefone]);
-        }, function(error) {
-            alert('Erro durante a transacao com o banco: ' + error.message);
-        }, function() {
-            alert('Atualização realizada com sucesso!!!');
+        ag.get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                var dados = db.collection("agendamentos").doc(doc.id);
+
+                return dados.update({
+                    nome: nome,
+                    telefone: telefone,
+                    origem: origem,
+                    data_contato: data_contato,
+                    observacao: observacao
+                })
+                .then(() => {
+                    console.log("Documento atualizado com sucesso!");
+                    window.location.href = cordova.file.applicationDirectory + "consulta.html";
+                })
+                .catch((error) => {
+                    // O documento provavelmente não existe
+                    console.error("Erro ao atualizar", error);
+                });
+            });
+        })
+        .catch((error) => {
+            console.log("Erro em obter os documentos: ", error);
         });
+
     }
 
 };
