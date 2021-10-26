@@ -2,18 +2,25 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
     <meta name="color-scheme" content="light dark">
-    <script src="bootstrap/css/bootstrap.css"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    
+    <script src="./../cordova.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-analytics.js"></script>
+
+    <script src="js/firebase.js"></script>
     <script src="js/excluir.js"></script>
-    <script src="cordova.js"></script>
 
     <title>Excluir</title>
 </head>
@@ -22,15 +29,11 @@
     <div class="container">
         <div class="row">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark col-12">
-                <a class="navbar-brand" href="index.html">Sistema Web</a>
-               
-               
-                    <ul class="navbar-nav">
-                       
+                <a class="navbar-brand" href="index.html">App Agendamentos</a>           
+                    <ul class="navbar-nav">                    
                             <a class="nav-link" href="index.html"> Cadastrar <span class="sr-only">(current)</span>
-                            </a>
-                       
-                        <li class="nav-item">
+                            </a>                      
+                       <li class="nav-item">
                             <a class="nav-link" href="consulta.html">Consultar</a>
                         </li>
                     </ul>
@@ -64,13 +67,13 @@
                     </select>
 
                     <label for="txtData">&nbsp;Data de Contato:</label>
-                    <input type="date" class="form-control" id="txtDataContato">
+                    <input type="date" class="form-control" id="txtDataContato" >
 
                     <label for="exampleFormControlTextarea1">&nbsp;Observação:</label>
                     <textarea class="form-control" id="txtObservacao" rows="3"></textarea>
                 </div>
                 <button type="button" id="btnBuscar" class="btn btn-primary">Buscar</button>
-                <button type="submit" id="btnExcluir" class="btn btn-primary">Excluir</button>
+                <button type="button" id="btnExcluir" class="btn btn-primary">Excluir</button>            
             </form>
         </div>
     </div>
